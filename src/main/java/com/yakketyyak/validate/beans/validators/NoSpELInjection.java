@@ -18,12 +18,12 @@ import com.yakketyyak.validate.beans.constant.PatternsConstant;
 import lombok.Data;
 
 @Documented
-@Constraint(validatedBy = NoSpELInjectionConstraintValidator.class)
+@Constraint(validatedBy = NoSpelInjectionConstraintValidator.class)
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NoSpELInjection {
+public @interface NoSpelInjection {
 
-	String message() default "{noSpELInjection}";
+	String message() default "{noSpelInjection}";
 
 	Class<?>[] groups() default {};
 
@@ -32,13 +32,13 @@ public @interface NoSpELInjection {
 }
 
 @Data
-class NoSpELInjectionConstraintValidator implements ConstraintValidator<NoSpELInjection, String> {
+class NoSpelInjectionConstraintValidator implements ConstraintValidator<NoSpelInjection, String> {
 
-	private NoSpELInjection noSpELInjection;
+	private NoSpelInjection noSpelInjection;
 
 	@Override
-	public void initialize(NoSpELInjection noSafe) {
-		this.noSpELInjection = noSafe;
+	public void initialize(NoSpelInjection noSafe) {
+		this.noSpelInjection = noSafe;
 	}
 
 	@Override

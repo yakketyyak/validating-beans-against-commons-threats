@@ -12,32 +12,33 @@ import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
+
+import com.yakketyyak.validate.beans.constant.PatternsConstant;
 
 import lombok.Data;
 
 @Documented
-@Constraint(validatedBy = NoXssContentConstraintValidator.class)
+@Constraint(validatedBy = NoLdapInjectionConstraintValidator.class)
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NoXssContent {
+public @interface NoLdapInjection {
 
-	String message() default "{noXssContent}";
+	String message() default "{noLdapInjection}";
 
 	Class<?>[] groups() default {};
 
 	Class<? extends Payload>[] payload() default {};
+
 }
 
 @Data
-class NoXssContentConstraintValidator implements ConstraintValidator<NoXssContent, String> {
+class NoLdapInjectionConstraintValidator implements ConstraintValidator<NoLdapInjection, String> {
 
-	private NoXssContent noXSSContent;
+	private NoLdapInjection noLdapInjection;
 
 	@Override
-	public void initialize(NoXssContent noSafe) {
-		this.noXSSContent = noSafe;
+	public void initialize(NoLdapInjection noSafe) {
+		this.noLdapInjection = noSafe;
 	}
 
 	@Override
@@ -47,7 +48,7 @@ class NoXssContentConstraintValidator implements ConstraintValidator<NoXssConten
 			return true;
 		}
 
-		return Jsoup.isValid(safeContent, Whitelist.none());
+		return safeContent.matches(PatternsConstant.getLdapInjection());
 	}
 
 }

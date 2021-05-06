@@ -46,6 +46,15 @@ class UserControllerTests {
 	}
 
 	@Test
+	void validate_ldap_content() throws JsonProcessingException, Exception {
+
+		User user = User.builder().username("!pabeu").firstName("Patrick").lastName("BEUGRE").build();
+		mockMvc.perform(post("/users/validate").content(mapper.writeValueAsString(user))
+				.contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isBadRequest());
+
+	}
+
+	@Test
 	void validate_no_xss_or_no_spel_content() throws JsonProcessingException, Exception {
 
 		User user = User.builder().username("pabeu").firstName("Patrick").lastName("BEUGRE").build();
